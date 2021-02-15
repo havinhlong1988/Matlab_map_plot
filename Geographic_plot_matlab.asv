@@ -1,0 +1,72 @@
+close all; clear all; clc;
+
+%% Plot in Geographic Coordinates
+% 
+% h = figure('Name','Cross_map','Numbertitle','off',...
+%     'Position',[1 1 1200 800],'visible','on');
+% %
+% latSeattle = 47.62;
+% lonSeattle = -122.33;
+% latAnchorage = 61.20;
+% lonAnchorage = -149.9;
+% %
+% geoplot([latSeattle latAnchorage],[lonSeattle lonAnchorage],'g-o','LineWidth',2)
+% geolimits([45 62],[-149 -123])
+% %% Geographic Bubble Chart
+% tsunamis = readtable('tsunamis.xlsx');
+% tsunamis.Cause = categorical(tsunamis.Cause);
+% %
+% h1 = figure('Name','Tsunami','Numbertitle','off',...
+%     'Position',[1 1 1200 800],'visible','on');
+% %
+% gb = geobubble(tsunamis,'Latitude','Longitude', ...
+%         'SizeVariable','MaxHeight','ColorVariable','Cause');
+% geolimits([10 65],[-180 -80])
+% title 'Tsunamis in North America';
+% %
+% gb.SizeLegendTitle = 'Maximum Height';
+
+%% Geographic Scatter Plot
+opts = detectImportOptions('00_sta.txt');
+st = readtable('00_sta.txt',opts);
+for i=1:length(st.Var1)
+    if st.Var1{i}(1:2) =='CB'; ibin(i)=1;
+    elseif st.Var1{i}(1:2) =='LA'; ibin(i)=2;
+    elseif st.Var1{i}(1:2) =='MM'; ibin(i)=3;    
+    elseif st.Var1{i}(1:2) =='IC'; ibin(i)=4;
+    elseif st.Var1{i}(1:2) =='IU'; ibin(i)=5;
+    elseif st.Var1{i}(1:2) =='VN'; ibin(i)=6;
+    elseif st.Var1{i}(1:2) =='TM'; ibin(i)=7;
+    elseif st.Var1{i}(1:2) =='TW'; ibin(i)=8;
+    elseif st.Var1{i}(1:2) =='YA'; ibin(i)=9;
+    else ibin(i)=10;
+    end
+end
+%
+sta = char(st.Var1);
+%
+sta = char(st.Var1);
+
+h2 = figure('Name','Tsunami','Numbertitle','off',...
+     'Position',[1 1 1200 800],'visible','on');
+% %
+% lat = (15:1:25);
+% lon = 100:1:110;
+% %
+ax = geoscatter(st.Var2',st.Var3',60,'^','filled');hold on
+%
+geoplot(st.Var2',st.Var3','k^');
+s1 = geoplot(st.Var2(ibin==1),st.Var3(ibin==1),'k^','MarkerFaceColor','k');
+s2 = geoplot(st.Var2(ibin==2),st.Var3(ibin==2),'k^','MarkerFaceColor','g');
+s3 = geoplot(st.Var2(ibin==3),st.Var3(ibin==3),'k^','MarkerFaceColor','y');
+s4 = geoplot(st.Var2(ibin==4),st.Var3(ibin==4),'k^','MarkerFaceColor','r');
+s5 = geoplot(st.Var2(ibin==5),st.Var3(ibin==5),'k^','MarkerFaceColor','pink');
+s6 = geoplot(st.Var2(ibin==6),st.Var3(ibin==5),'k^','MarkerFaceColor','pink');
+s7 = geoplot(st.Var2(ibin==7),st.Var3(ibin==5),'k^','MarkerFaceColor','pink');
+s8 = geoplot(st.Var2(ibin==8),st.Var3(ibin==5),'k^','MarkerFaceColor','pink');
+s9 = geoplot(st.Var2(ibin==9),st.Var3(ibin==5),'k^','MarkerFaceColor','pink');
+s10 = geoplot(st.Var2(ibin==10),st.Var3(ibin==10),'k^','MarkerFaceColor','pink');
+% geobasemap colorterrain
+geobasemap landcover
+geolimits([18 26],[100 110])
+%
